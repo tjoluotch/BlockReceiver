@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  blockreceiver:
+    container_name: blockreceiver
+    hostname: blockreceiver
+    build:
+      context: .
+    image: tjoluotch/blockreceiver:1.0.0
+    ports:
+      - 30031:30031
+    restart: always
+    env_file:
+      - config.env
+#    networks:
+#      - chain
+
+networks:
+  default:
+    external:
+      name: chain
