@@ -12,8 +12,8 @@ import (
 
 const (
 	NETWORK      = "tcp"
-	PORT     int = 50051
-	HOSTNAME     = "localhost"
+	PORT     int = 30031
+	HOSTNAME     = ""
 )
 
 type blockReceiverServer struct {
