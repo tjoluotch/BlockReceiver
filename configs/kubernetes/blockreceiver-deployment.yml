@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blockreceiver-deployment
+  annotations:
+    buildversion: "1.0.0"
+    blockversion: "1.0.0"
+    repository: "github.com/tjoluotch/BlockReceiver"
+    goversion: "1.17"
+  labels:
+    app: blockreceiver
+    environment: dev
+    version: "1.0.0"
+  namespace: dev
+spec:
+  minReadySeconds: 5
+  progressDeadlineSeconds: 601
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blockreceiver
+      environment: dev
+      version: "1.0.0"
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: blockreceiver
+        environment: dev
+        version: "1.0.0"
+    spec:
+      containers:
+      - name: block-receiver
+        image: localhost:5000/tjoluotch/blockreceiver:1.0.0
+        ports:
+        - containerPort: 30031
+          hostPort: 30031
+          protocol: TCP
+        env:
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: "99"
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: "info"
+        command:
+        - "/build/app"
